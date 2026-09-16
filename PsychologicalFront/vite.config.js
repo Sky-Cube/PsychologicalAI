@@ -7,7 +7,15 @@ export default defineConfig({
   plugins: [vue()],
   resolve: {
     alias: {
-      '@': resolve(__dirname, 'src'),
+      // 替换 __dirname
+      '@': resolve(import.meta.dirname, 'src'),
     },
   },
+  // 新增：解决Windows文件监听，热更新失效
+  server: {
+    watch: {
+      usePolling: true,
+      interval: 500
+    }
+  }
 })

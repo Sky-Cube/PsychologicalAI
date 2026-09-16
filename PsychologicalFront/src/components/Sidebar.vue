@@ -9,16 +9,24 @@
         @open="handleOpen"
         @close="handleClose"
       >
-        <el-menu-item
-          v-for="item in router.options.routes?.[0]?.children || []"
-          :key="item.path"
-          :index="item.path"
-        >
-          <el-icon>
-            <component :is="item.meta.icon"></component>
-          </el-icon>
-          <span>{{ item.meta.title }}</span>
-        </el-menu-item>
+      <div class="brand">
+        <el-image src="/src/assets/logo.png" alt="logo" class="robot-icon" />
+        <div class="info-card">
+          <h1 class="brand-title">心理健康AI助手</h1>
+          <p class="brand-subtitle">管理后台</p>
+        </div>
+      </div>
+
+      <el-menu-item
+        v-for="item in router.options.routes?.[0]?.children || []"
+        :key="item.path"
+        :index="item.path"
+      >
+        <el-icon>
+          <component :is="item.meta.icon"></component>
+        </el-icon>
+        <span>{{ item.meta.title }}</span>
+      </el-menu-item>
       </el-menu>
     </el-aside>
 
@@ -71,4 +79,38 @@ const handleClose = (key) => {
   display: flex;
   flex-direction: column;
 }
+// 左上角logo区域
+.brand {
+  display: flex;
+  align-items: center; /* 垂直居中，图片和文字对齐 */
+  gap: 10px; /* 图片和文字之间的间距 */
+  padding: 12px 16px;
+}
+
+.robot-icon {
+  width: 50px;
+  height: 50px;
+  flex-shrink: 0; /* 图片不压缩 */
+}
+
+.info-card {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.brand-title {
+  font-size: 20px;
+  font-weight: bold;
+  margin: 0;
+  line-height: 1.2;
+}
+
+.brand-subtitle {
+  font-size: 14px;
+  color: #666;
+  margin: 0;
+}
+// logo区域结束
+
 </style>
