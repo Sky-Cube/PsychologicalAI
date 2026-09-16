@@ -1,5 +1,5 @@
 <template>
-  <div class="backend-layout">
+  <div class="sidebar-layout">
     <!-- 侧边栏 -->
     <el-aside :width="isCollapse ? '64px' : '264px'">
       <el-menu
@@ -10,7 +10,7 @@
         @close="handleClose"
       >
       <div class="brand">
-        <el-image src="/src/assets/logo.png" alt="logo" class="robot-icon" />
+        <el-image :src="logoURL" alt="logo" class="robot-icon" />
         <div class="info-card">
           <h1 class="brand-title">心理健康AI助手</h1>
           <p class="brand-subtitle">管理后台</p>
@@ -51,6 +51,8 @@
 <script setup>
 import { ref } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
+// logo 静态资源：走 Vite 模块解析，支持 @ 别名，构建时会自动处理路径与哈希
+import logoURL from '@/assets/images-admin/logo.png'
 
 // 全局路由实例，读取路由配置
 const router = useRouter()
@@ -70,7 +72,7 @@ const handleClose = (key) => {
 </script>
 
 <style lang="scss" scoped>
-.backend-layout {
+.sidebar-layout {
   display: flex;
   height: 100vh;
 }

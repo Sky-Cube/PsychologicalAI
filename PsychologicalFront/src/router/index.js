@@ -11,7 +11,7 @@ const backendRoutes = [
       {
         // 指定子路由名称和位置，位置是/views/Dashboard.vue
         path: 'dashboard',
-        component: () => import('@/views/Dashboard.vue'),
+        component: () => import('@/views/dashboard.vue'),
         meta: {
           title: '数据分析',
           icon: 'PieChart'
