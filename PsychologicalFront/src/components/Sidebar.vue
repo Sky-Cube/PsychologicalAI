@@ -6,8 +6,7 @@
         :default-active="$route.path"
         class="menu-style"
         :collapse="isCollapse"
-        @open="handleOpen"
-        @close="handleClose"
+        router
       >
       <!-- ========== 品牌logo区域 ========== -->
       <div class="brand" :class="{ 'is-collapse': isCollapse }">
@@ -16,23 +15,13 @@
           <h1 class="brand-title">心理健康AI助手</h1>
           <p class="brand-subtitle">管理后台</p>
         </div>
-        <!-- 折叠按钮 -->
-        <el-button
-          circle
-          class="collapse-btn"
-          :title="isCollapse ? '展开菜单' : '收起菜单'"
-          @click="isCollapse = !isCollapse"
-        >
-          <el-icon>
-            <component :is="isCollapse ? 'Expand' : 'Fold'" />
-          </el-icon>
-        </el-button>
       </div>
 
       <div class="brand-divider" v-show="!isCollapse"></div>
 
       <!-- 菜单列表 -->
-      <el-menu-item
+      <el-menu-item 
+        @click="selectMenu('/back/' + item.path)"
         v-for="item in router.options.routes?.[0]?.children || []"
         :key="item.path"
         :index="'/back/' + item.path"
@@ -51,24 +40,35 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
-import { useRouter, useRoute } from 'vue-router'
+import { useRouter } from 'vue-router'
 // logo 静态资源：走 Vite 模块解析，支持 @ 别名，构建时会自动处理路径与哈希
 import logoURL from '@/assets/images-admin/logo.png'
+import { storeToRefs } from 'pinia'
+import { useAdminStore } from '@/stores/admin'
+
+
 // 全局路由实例，读取路由配置
 const router = useRouter()
-// 当前路由对象
-const route = useRoute()
-console.log(router ,'router')
-// 侧边栏折叠状态
-const isCollapse = ref(false)
-const handleOpen = (key) => {
+
+
+/* const handleOpen = (key) => {
   console.log('菜单展开：', key)
 }
 const handleClose = (key) => {
   console.log('菜单关闭：', key)
+} */
+const selectMenu = (path) => {
+  console.log('菜单选中：', path)
+  router.push(path)
 }
+
+// 折叠状态：唯一数据源为 Pinia store，本组件只读订阅，不做任何写入
+// storeToRefs 只解构出 state 对应的 ref，保持响应性不丢失（直接解构 store 会丢失响应性）
+const { isCollapse } = storeToRefs(useAdminStore())
+
+
 </script>
+
 <style lang="scss" scoped>
 .sidebar-layout {
   display: flex;
@@ -108,7 +108,7 @@ const handleClose = (key) => {
       margin: 0;
     }
   }
-  // 分割线（放到brand外面，不再在flex一行里面）
+  // 分割线
   .brand-divider {
     height: 1px;
     background-color: #e4e7ed;
@@ -120,7 +120,8 @@ const handleClose = (key) => {
   height: 50px;
   flex-shrink: 0; /* 图片不压缩 */
   /* 折叠态缩小 logo，为折叠按钮让出空间 */
-  :deep(.brand.is-collapse) & {
+  /* 直接嵌套即可：scoped 会把 data-v 属性加到选择器末位的 .robot-icon 上 */
+  .brand.is-collapse & {
     width: 32px;
     height: 32px;
   }
@@ -132,7 +133,5 @@ const handleClose = (key) => {
   flex: 1; /* 占满剩余空间，把折叠按钮推到最右侧 */
   min-width: 0; /* 防止长文本撑破 flex 容器 */
 }
-.collapse-btn {
-  flex-shrink: 0; /* 按钮不压缩 */
-}
+
 </style>
