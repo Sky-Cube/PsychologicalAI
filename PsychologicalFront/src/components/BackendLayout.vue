@@ -1,6 +1,6 @@
 <template>
   <div class="backend-layout">
-    <el-container>
+    <el-container class="main-container">
         <Sidebar />
         <el-container>
             <el-header>
@@ -21,6 +21,9 @@ import Sidebar from './Sidebar.vue'
 
 <style lang="scss" scoped>
     .backend-layoud{
+      height: 100vh;
+    }
+    .main-container{
       height: 100vh;
     }
 </style>

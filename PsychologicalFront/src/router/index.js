@@ -1,6 +1,6 @@
 import component from 'element-plus/es/components/tree-select/src/tree-select-option.mjs'
 import { createRouter, createWebHistory } from 'vue-router'
-import BackendLayout from '@/COMponents/BackendLayout.vue'
+import BackendLayout from '@/components/BackendLayout.vue'
 
 // 路由配置
 const backendRoutes = [
